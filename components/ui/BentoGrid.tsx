@@ -44,7 +44,7 @@ export const BentoGridItem = ({
   return (
     <div
       className={cn(
-        "rounded-lg group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-[#18181b] dark:border-white/[0.2] bg-white border border-transparent justify-between flex",
+        "rounded-lg group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-[#18181b] dark:border-white/[0.2] bg-white dark:text-white border border-transparent justify-between flex",
         className
       )}
     >
@@ -56,8 +56,8 @@ export const BentoGridItem = ({
           {description}
         </div>
         <div className="flex gap-2">
-        <Link href={`register/${id}`} className=" p-5 bg-blue-200">Register</Link>
-        <Link href={`event/${id}`} className=" p-5 bg-blue-200">View</Link></div>
+        <Link href={`register/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">Register</Link>
+        <Link href={`event/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">View</Link></div>
         <p>Registered already:{registeredUsers.length}</p>
       </div>
     </div>
