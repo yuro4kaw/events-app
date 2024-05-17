@@ -15,8 +15,6 @@ export async function PUT(request) {
   const { eventId, fullName, email, dateOfBirth, heardAbout } = await request.json();
 
   try {
-    console.log(eventId);
-
     const existingEvent = await Event.findById(eventId);
     if (!existingEvent) {
       return NextResponse.json({ message: "Event not found" }, { status: 404 });
@@ -38,25 +36,9 @@ export async function PUT(request) {
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const eventId = searchParams.get("id");
-
-  // Якщо ідентифікатор івенту передано, отримати лише цей івент
-  if (eventId) {
-    try {
-      const event = await Event.findById(eventId);
-      if (!event) {
-        return NextResponse.json({ message: "Event not found" }, { status: 404 });
-      }
-      return NextResponse.json({ event });
-    } catch (error) {
-      console.log(error);
-      return NextResponse.error();
-    }
-  }
-
-  // Якщо ідентифікатор івенту не передано, отримати список всіх подій
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = 6; // Кількість елементів на сторінку
+
   const skip = (page - 1) * limit;
 
   try {
@@ -75,3 +57,4 @@ export async function GET(request) {
     return NextResponse.error();
   }
 }
+

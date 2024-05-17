@@ -33,17 +33,19 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
     fetchEventData();
   }, [eventId]);
 
+  console.log(eventData);
+
   return (
     <div>
       <h2>Event Details</h2>
       {eventData ? (
         <div>
-          <p>Title: {eventData.title}</p>
-          <p>Description: {eventData.description}</p>
-          <p>Organizer: {eventData.organizer}</p>
+          <p>Title: {eventData.event.title}</p>
+          <p>Description: {eventData.event.description}</p>
+          <p>Organizer: {eventData.event.organizer}</p>
           <p>Registered Users:</p>
           <ul>
-            {eventData.registeredUsers.map((user: RegisteredUser) => (
+            {eventData.event.registeredUsers.map((user: RegisteredUser) => (
               <li key={user._id}>
                 {user.fullName} - {user.email}
               </li>
