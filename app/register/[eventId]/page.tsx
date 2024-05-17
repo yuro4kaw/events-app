@@ -11,7 +11,8 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
     fullName: '',
     email: '',
     dateOfBirth: '',
-    heardAbout: ''
+    heardAbout: '',
+    eventId: eventId,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,8 +26,8 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/api/events/${eventId}/register`, {
-        method: 'POST',
+      const response = await fetch(`/api/events`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -36,10 +37,10 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
       if (response.ok) {
         alert('Користувач успішно зареєстрований на івент!');
       } else {
-        throw new Error('Помилка реєстрації користувача');
+        console.log(response.statusText)
       }
     } catch (error) {
-      console.error('Помилка реєстрації користувача:', error);
+      console.error(error);
     }
   };
 
@@ -48,7 +49,7 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
       <h2>Реєстрація на івент: {eventId}</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Повне ім'я:</label>
+          <label>Повне ім&apos;я:</label>
           <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
         </div>
         <div>

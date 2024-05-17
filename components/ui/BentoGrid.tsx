@@ -1,6 +1,14 @@
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 
+interface RegisteredUser {
+  fullName: string;
+  email: string;
+  dateOfBirth: string; // або можна використовувати тип Date
+  heardAbout: string;
+  _id: string;
+}
+
 export const BentoGrid = ({
   className,
   children,
@@ -24,17 +32,19 @@ export const BentoGridItem = ({
   className,
   title,
   description,
+  registeredUsers,
   id,
 }: {
   className?: string;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
+  registeredUsers: RegisteredUser[];
   id?: string | React.ReactNode;
 }) => {
   return (
     <div
       className={cn(
-        "row-span-1 rounded-lg group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-[#18181b] dark:border-white/[0.2] bg-white border border-transparent justify-between flex flex-col space-y-4",
+        "rounded-lg group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-[#18181b] dark:border-white/[0.2] bg-white border border-transparent justify-between flex",
         className
       )}
     >
@@ -45,7 +55,10 @@ export const BentoGridItem = ({
         <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
           {description}
         </div>
-        <Link href={`register/${id}`}>Register</Link>
+        <div className="flex gap-2">
+        <Link href={`register/${id}`} className=" p-5 bg-blue-200">Register</Link>
+        <Link href={`event/${id}`} className=" p-5 bg-blue-200">View</Link></div>
+        <p>Registered already:{registeredUsers.length}</p>
       </div>
     </div>
   );
