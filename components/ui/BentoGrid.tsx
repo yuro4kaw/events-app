@@ -33,12 +33,16 @@ export const BentoGridItem = ({
   title,
   description,
   registeredUsers,
+  eventDate,
+  organizer,
   id,
 }: {
   className?: string;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
-  registeredUsers: RegisteredUser[];
+  registeredUsers?: RegisteredUser[];
+  eventDate?: string;
+  organizer?:string,
   id?: string | React.ReactNode;
 }) => {
   return (
@@ -55,10 +59,18 @@ export const BentoGridItem = ({
         <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
           {description}
         </div>
+
+        <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
+          {eventDate}
+        </div>
+
+        <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
+          {organizer}
+        </div>
         <div className="flex gap-2">
         <Link href={`register/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">Register</Link>
         <Link href={`event/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">View</Link></div>
-        <p>Registered already:{registeredUsers.length}</p>
+        <p>Registered already:{registeredUsers?.length}</p>
       </div>
     </div>
   );

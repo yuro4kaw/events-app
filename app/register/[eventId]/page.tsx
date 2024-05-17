@@ -45,24 +45,24 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   };
 
   return (
-    <div>
+    <div className='dark:text-white'>
       <h2>Реєстрація на івент: {eventId}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Повне ім&apos;я:</label>
-          <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+          <input className='dark:text-black' type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
         </div>
         <div>
           <label>Email:</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+          <input className='dark:text-black' type="email" name="email" value={formData.email} onChange={handleChange} required />
         </div>
         <div>
           <label>Дата народження:</label>
-          <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
+          <input className='dark:text-black' type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
         </div>
         <div>
           <label>Звідки ви дізналися про івент?</label>
-          <select name="heardAbout" value={formData.heardAbout} onChange={handleChange} required>
+          <select className='dark:text-black' name="heardAbout" value={formData.heardAbout} onChange={handleChange} required>
             <option value="">Оберіть варіант</option>
             <option value="Інтернет">Інтернет</option>
             <option value="Друзі">Друзі</option>
