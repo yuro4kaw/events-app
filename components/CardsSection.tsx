@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
-import { Autocomplete, Select } from "@mantine/core";
+import { Autocomplete, Select, Button } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 
 interface RegisteredUser {
@@ -30,9 +30,7 @@ const CardsSection = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [titleSortMethod, setTitleSortMethod] = useState<string>("Default");
-  const [dateSortMethod, setDateSortMethod] = useState<string>("Default");
-  const [organizerSortMethod, setOrganizerSortMethod] = useState<string>("Default");
+  const [sortMethod, setSortMethod] = useState<string>("Default");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [organizerFilter, setOrganizerFilter] = useState<string>("");
@@ -98,29 +96,26 @@ const CardsSection = () => {
 
   const sortEvents = (
     events: Event[],
-    titleSortMethod: string,
-    dateSortMethod: string,
-    organizerSortMethod: string
+    sortMethod: string
   ) => {
-    // Спочатку сортуємо за датою
-    const sortedByDate = sortEventsByDate(events, dateSortMethod);
-
-    // Потім за назвою, у разі рівності дати
-    const sortedByDateAndTitle = sortEventsByTitle(
-      sortedByDate,
-      titleSortMethod
-    );
-
-    // Потім за організатором, у разі рівності дати та назви
-    const sortedByAll = sortEventsByOrganizer(
-      sortedByDateAndTitle,
-      organizerSortMethod
-    );
-
-    return sortedByAll;
+    switch (sortMethod) {
+      case "Name Ascending":
+        return sortEventsByTitle(events, "Ascending");
+      case "Name Descending":
+        return sortEventsByTitle(events, "Descending");
+      case "Date Ascending":
+        return sortEventsByDate(events, "Ascending");
+      case "Date Descending":
+        return sortEventsByDate(events, "Descending");
+      case "Organizer Ascending":
+        return sortEventsByOrganizer(events, "Ascending");
+      case "Organizer Descending":
+        return sortEventsByOrganizer(events, "Descending");
+      default:
+        return events;
+    }
   };
 
-  // Функція сортування за назвою
   const sortEventsByTitle = (events: Event[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort((a, b) => a.title.localeCompare(b.title));
@@ -130,7 +125,6 @@ const CardsSection = () => {
     return events;
   };
 
-  // Функція сортування за датою
   const sortEventsByDate = (events: Event[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort(
@@ -146,7 +140,6 @@ const CardsSection = () => {
     return events;
   };
 
-  // Функція сортування за організатором
   const sortEventsByOrganizer = (events: Event[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort((a, b) => a.organizer.localeCompare(b.organizer));
@@ -164,12 +157,7 @@ const CardsSection = () => {
     });
   };
 
-  const sortedEvents = sortEvents(
-    filteredEvents,
-    titleSortMethod,
-    dateSortMethod,
-    organizerSortMethod
-  );
+  const sortedEvents = sortEvents(filteredEvents, sortMethod);
 
   const filteredEventsByDate = filterEventsByDate(sortedEvents, startDate, endDate);
 
@@ -185,15 +173,9 @@ const CardsSection = () => {
     }
   };
 
-  const handleTitleSortChange = (value: string | null) => {
+  const handleSortChange = (value: string | null) => {
     if (value !== null) {
-      setTitleSortMethod(value);
-    }
-  };
-
-  const handleDateSortChange = (value: string | null) => {
-    if (value !== null) {
-      setDateSortMethod(value);
+      setSortMethod(value);
     }
   };
 
@@ -213,78 +195,71 @@ const CardsSection = () => {
     }
   };
 
-  const handleOrganizerSortChange = (value: string | null) => {
-    if (value !== null) {
-      setOrganizerSortMethod(value);
-    }
+  const clearFilters = () => {
+    setSearchValue("");
+    setSortMethod("Default");
+    setStartDate(null);
+    setEndDate(null);
+    setOrganizerFilter("");
   };
 
   return (
     <div className="px-4 dark:text-white" id="cards">
       <div className="max-w-7xl mx-auto flex flex-col gap-3">
-      <h2 className="font-black">Sort By Title</h2>
-      <div className="flex">
-        <Autocomplete
-          label="Search event by name"
-          placeholder="Pick event or search by name"
-          data={uniqueEventTitles}
-          value={searchValue}
-          onChange={(value) => handleAutocompleteChange(value)}
-          className="w-full"
-        />
-        <Select
-          label="Sort events by title"
-          placeholder="Choose sort method"
-          data={["Default", "Ascending", "Descending"]}
-          value={titleSortMethod}
-          onChange={(value) => handleTitleSortChange(value)}
-          className="w-full"
-        />
-      </div>
-      <h2 className="font-black">Sort By Date</h2>
-      <div className="flex">
-        <Select
-          label="Sort events by date"
-          placeholder="Choose sort method"
-          data={["Default", "Ascending", "Descending"]}
-          value={dateSortMethod}
-          onChange={(value) => handleDateSortChange(value)}
-          className="w-full"
-        />
-        <DatePickerInput
-          label="Pick start date"
-          placeholder="Start date"
-          value={startDate}
-          onChange={handleStartDateChange}
-          className="w-full"
-        />
-        <DatePickerInput
-          label="Pick end date"
-          placeholder="End date"
-          value={endDate}
-          onChange={handleEndDateChange}
-          className="w-full"
-        />
-      </div>
-      <h2 className="font-black">Sort and Filter By Organizer</h2>
-      <div className="flex">
-        <Autocomplete
-          label="Filter events by organizer"
-          placeholder="Pick organizer or search by name"
-          data={uniqueOrganizers}
-          value={organizerFilter}
-          onChange={(value) => handleOrganizerChange(value)}
-          className="w-full"
-        />
-        <Select
-          label="Sort events by organizer"
-          placeholder="Choose sort method"
-          data={["Default", "Ascending", "Descending"]}
-          value={organizerSortMethod}
-          onChange={(value) => handleOrganizerSortChange(value)}
-          className="w-full"
-        />
-      </div>
+        <h2 className="font-black">Sort and Filter Events</h2>
+        <div className="flex">
+          <Autocomplete
+            label="Search event by name"
+            placeholder="Pick event or search by name"
+            data={uniqueEventTitles}
+            value={searchValue}
+            onChange={(value) => handleAutocompleteChange(value)}
+            className="w-full"
+          />
+          <Select
+            label="Sort events"
+            placeholder="Choose sort method"
+            data={[
+              "Default",
+              "Name Ascending",
+              "Name Descending",
+              "Date Ascending",
+              "Date Descending",
+              "Organizer Ascending",
+              "Organizer Descending"
+            ]}
+            value={sortMethod}
+            onChange={(value) => handleSortChange(value)}
+            className="w-full"
+          />
+        </div>
+        <div className="flex">
+          <DatePickerInput
+            label="Pick start date"
+            placeholder="Start date"
+            value={startDate}
+            onChange={handleStartDateChange}
+            className="w-full"
+          />
+          <DatePickerInput
+            label="Pick end date"
+            placeholder="End date"
+            value={endDate}
+            onChange={handleEndDateChange}
+            className="w-full"
+          />
+          <Autocomplete
+            label="Filter events by organizer"
+            placeholder="Pick organizer or search by name"
+            data={uniqueOrganizers}
+            value={organizerFilter}
+            onChange={(value) => handleOrganizerChange(value)}
+            className="w-full"
+          />
+        </div>
+        <Button onClick={clearFilters} className="self-end mt-3">
+          Clear Filters
+        </Button>
       </div>
       <BentoGrid className="py-20">
         {filteredEventsByDate && filteredEventsByDate.length > 0 ? (

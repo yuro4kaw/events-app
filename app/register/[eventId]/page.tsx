@@ -1,68 +1,99 @@
-'use client'
-import React, { FC, useState } from 'react';
+"use client";
+import React, { FC } from "react";
+import { useForm } from "react-hook-form";
 
 interface EventRegisterParams {
   eventId: string;
 }
 
+type Form = {
+  name: string;
+  email: string;
+  dateOfBirth: string;
+  event: string;
+};
+
 const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const eventId = params.eventId;
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    dateOfBirth: '',
-    heardAbout: '',
-    eventId: eventId,
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch(`/api/events`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(formData)
+  //     });
+
+  //     if (response.ok) {
+  //       alert('Користувач успішно зареєстрований на івент!');
+  //     } else {
+  //       console.log(response.statusText)
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const { register, handleSubmit, formState } = useForm<Form>({
+    defaultValues: {
+      name: "",
+      email: "",
+      dateOfBirth: "",
+      event: "",
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+  const onSubmit = (props: Form) => {
+    console.log(props);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/api/events`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
-        alert('Користувач успішно зареєстрований на івент!');
-      } else {
-        console.log(response.statusText)
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const {isValid, isSubmitting, errors} = formState;
 
   return (
-    <div className='dark:text-white'>
+    <div className="dark:text-white">
       <h2>Реєстрація на івент: {eventId}</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label>Повне ім&apos;я:</label>
-          <input className='dark:text-black' type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+          <label>Повне ім'я:</label>
+          <p>{errors.name?.message}</p>
+          <input
+            {...register("name")}
+            className="dark:text-black"
+            type="text"
+            required
+          />
         </div>
         <div>
           <label>Email:</label>
-          <input className='dark:text-black' type="email" name="email" value={formData.email} onChange={handleChange} required />
+          <p>{errors.email?.message}</p>
+          <input
+            {...register("email")}
+            className="dark:text-black"
+            type="email"
+            required
+          />
         </div>
         <div>
           <label>Дата народження:</label>
-          <input className='dark:text-black' type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
+          <p>{errors.dateOfBirth?.message}</p>
+          <input
+            {...register("dateOfBirth")}
+            className="dark:text-black"
+            type="date"
+            required
+          />
         </div>
         <div>
           <label>Звідки ви дізналися про івент?</label>
-          <select className='dark:text-black' name="heardAbout" value={formData.heardAbout} onChange={handleChange} required>
+          <p>{errors.event?.message}</p>
+          <select
+            {...register("event")}
+            className="dark:text-black"
+            required
+          >
             <option value="">Оберіть варіант</option>
             <option value="Інтернет">Інтернет</option>
             <option value="Друзі">Друзі</option>
@@ -70,7 +101,7 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             <option value="Інше">Інше</option>
           </select>
         </div>
-        <button type="submit">Зареєструватися</button>
+        <button type="submit" disabled={isSubmitting}>Зареєструватися</button>
       </form>
     </div>
   );

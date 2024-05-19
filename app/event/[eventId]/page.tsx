@@ -33,8 +33,6 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
     fetchEventData();
   }, [eventId]);
 
-  console.log(eventData);
-
   return (
     <div className='dark:text-white'>
       <h2>Event Details</h2>
