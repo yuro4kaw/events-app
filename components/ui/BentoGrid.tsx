@@ -1,13 +1,6 @@
+import { UserInterface } from "@/hooks/useFetchEvent";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-
-interface RegisteredUser {
-  fullName: string;
-  email: string;
-  dateOfBirth: string; // або можна використовувати тип Date
-  heardAbout: string;
-  _id: string;
-}
 
 export const BentoGrid = ({
   className,
@@ -40,9 +33,9 @@ export const BentoGridItem = ({
   className?: string;
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
-  registeredUsers?: RegisteredUser[];
-  eventDate?: string;
-  organizer?:string,
+  registeredUsers?: UserInterface[];
+  eventDate?: Date;
+  organizer?: string;
   id?: string | React.ReactNode;
 }) => {
   return (
@@ -61,15 +54,28 @@ export const BentoGridItem = ({
         </div>
 
         <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
-          {eventDate}
+          {eventDate
+            ? new Date(eventDate).toLocaleString()
+            : "No event date available"}
         </div>
 
         <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
           {organizer}
         </div>
         <div className="flex gap-2">
-        <Link href={`register/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">Register</Link>
-        <Link href={`event/${id}`} className=" p-5 bg-blue-200 dark:bg-blue-950">View</Link></div>
+          <Link
+            href={`register/${id}`}
+            className=" p-5 bg-blue-200 dark:bg-blue-950"
+          >
+            Register
+          </Link>
+          <Link
+            href={`event/${id}`}
+            className=" p-5 bg-blue-200 dark:bg-blue-950"
+          >
+            View
+          </Link>
+        </div>
         <p>Registered already:{registeredUsers?.length}</p>
       </div>
     </div>

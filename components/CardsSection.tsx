@@ -1,31 +1,14 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
 import { Autocomplete, Select, Button } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-
-interface RegisteredUser {
-  fullName: string;
-  email: string;
-  dateOfBirth: string; // or use type Date
-  heardAbout: string;
-  _id: string;
-}
-
-interface Event {
-  _id: string;
-  title: string;
-  description: string;
-  event_date: string; // or use type Date
-  organizer: string;
-  registeredUsers: RegisteredUser[];
-}
+import { EventInterface } from "@/hooks/useFetchEvent";
 
 const CardsSection = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<EventInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -76,12 +59,12 @@ const CardsSection = () => {
 
   //----------------------------------------------------------------
 
-  const getUniqueTitles = (events: Event[]) => {
+  const getUniqueTitles = (events: EventInterface[]) => {
     const titles = events.map((event) => event.title);
     return Array.from(new Set(titles)); // Removes duplicate titles
   };
 
-  const getUniqueOrganizers = (events: Event[]) => {
+  const getUniqueOrganizers = (events: EventInterface[]) => {
     const organizers = events.map((event) => event.organizer);
     return Array.from(new Set(organizers)); // Removes duplicate organizers
   };
@@ -95,7 +78,7 @@ const CardsSection = () => {
   );
 
   const sortEvents = (
-    events: Event[],
+    events: EventInterface[],
     sortMethod: string
   ) => {
     switch (sortMethod) {
@@ -116,7 +99,7 @@ const CardsSection = () => {
     }
   };
 
-  const sortEventsByTitle = (events: Event[], method: string) => {
+  const sortEventsByTitle = (events: EventInterface[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort((a, b) => a.title.localeCompare(b.title));
     } else if (method === "Descending") {
@@ -125,7 +108,7 @@ const CardsSection = () => {
     return events;
   };
 
-  const sortEventsByDate = (events: Event[], method: string) => {
+  const sortEventsByDate = (events: EventInterface[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort(
         (a, b) =>
@@ -140,7 +123,7 @@ const CardsSection = () => {
     return events;
   };
 
-  const sortEventsByOrganizer = (events: Event[], method: string) => {
+  const sortEventsByOrganizer = (events: EventInterface[], method: string) => {
     if (method === "Ascending") {
       return [...events].sort((a, b) => a.organizer.localeCompare(b.organizer));
     } else if (method === "Descending") {
@@ -149,7 +132,7 @@ const CardsSection = () => {
     return events;
   };
 
-  const filterEventsByDate = (events: Event[], startDate: Date | null, endDate: Date | null) => {
+  const filterEventsByDate = (events: EventInterface[], startDate: Date | null, endDate: Date | null) => {
     if (!startDate || !endDate) return events;
     return events.filter((event) => {
       const eventDate = new Date(event.event_date);
