@@ -3,10 +3,8 @@ import { FormValues, formShema } from "@/utils/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Input } from "@mantine/core";
+import { Input, Select } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
 import useFetchEvent from "@/hooks/useFetchEvent";
 
 interface EventRegisterParams {
@@ -99,7 +97,7 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             Where did you hear about this event?
           </label>
           <p className="text-red-500">{errors.heardAbout?.message}</p>
-          <select
+          {/* <select
             {...register("heardAbout")}
             className="dark:text-black border border-gray-300 rounded px-3 py-2 w-full"
           >
@@ -107,7 +105,18 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             <option value="Social media">Social media</option>
             <option value="Friends">Friends</option>
             <option value="Found myself">Found myself</option>
-          </select>
+          </select> */}
+          <Controller
+            control={control}
+            name={"heardAbout"}
+            render={({ field }) => (
+              <Select
+                onChange={(date) => field.onChange(date)}
+                data={["Social media", "Friends", "Found myself"]}
+                placeholder="Pick value"
+              />
+            )}
+          />
         </div>
         <button
           type="submit"

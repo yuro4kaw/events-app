@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
-import "@mantine/core/styles.css";
-import '@mantine/dates/styles.css';
 import { Autocomplete, Select, Button } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { EventInterface } from "@/hooks/useFetchEvent";
