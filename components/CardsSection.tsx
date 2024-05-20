@@ -1,9 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
-import { Autocomplete, Select, Button } from "@mantine/core";
+import { Autocomplete, Select } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { EventInterface } from "@/hooks/useFetchEvent";
 import useEvents from "@/hooks/useEvents";
 import {
   getUniqueTitles,
@@ -15,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { VscSettings } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
+import Preloader from "@/components/Preloader"
 
 const CardsSection = () => {
   const { events, loading, hasMore, loadMore } = useEvents();
@@ -59,7 +59,7 @@ const CardsSection = () => {
   );
 
   if (loading && events.length === 0) {
-    return <p>Loading...</p>;
+    return <Preloader />;
   }
 
   // Clear all filters
@@ -192,7 +192,7 @@ const CardsSection = () => {
           )}
         </BentoGrid>
       </div>
-      {loading && <p>Loading more events...</p>}
+      {loading && <Preloader />}
     </div>
   );
 };

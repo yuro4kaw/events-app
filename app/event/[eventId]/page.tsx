@@ -10,6 +10,7 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import "@/utils/flipClock.css";
 import { TbCircleArrowUpRight } from "react-icons/tb";
 import { useRouter } from "next/navigation";
+import Preloader from "@/components/Preloader";
 
 interface EventRegisterParams {
   eventId: string;
@@ -45,7 +46,11 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   }, [eventData]);
 
   if (loading) {
-    return <p>Loading event data...</p>;
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <Preloader />
+      </div>
+    );
   }
 
   if (error) {
