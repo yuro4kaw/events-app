@@ -9,6 +9,7 @@ import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import "@/utils/flipClock.css";
 import { TbCircleArrowUpRight } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
 interface EventRegisterParams {
   eventId: string;
@@ -21,6 +22,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const [searchEmail, setSearchEmail] = useState<string>("");
   const [eventEnded, setEventEnded] = useState<boolean>(false);
   const [activePage, setPage] = useState(1);
+  const router = useRouter();
 
   const handleNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchName(e.target.value);
@@ -76,30 +78,35 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
 
   return (
     <div className="text-white max-w-7xl mx-auto px-4 mt-10">
-      <Link
-        href="/"
+      <button
+        onClick={() => router.back()}
         className="flex gap-1 items-center my-4 hover:text-neutral-300 transition-all w-fit"
       >
         <SlArrowLeft />
         Back
-      </Link>
+      </button>
 
       {eventData ? (
         <>
           <div className="flex flex-col md:flex-row justify-between gap-10 items-start bg-[#232323] p-4 border-[#4F4F4F] border rounded-lg overflow-hidden">
             <div>
-              <h1 className="text-5xl font-bold mb-2">{eventData.event.title}</h1>
+              <h1 className="text-5xl font-bold mb-2">
+                {eventData.event.title}
+              </h1>
               <p className="mb-2">{eventData.event.description}</p>
-              <Link
-                href={`/register/${eventData.event._id}`}
-                className="group flex gap-2 items-center bg-white rounded w-fit font-normal text-black px-4 py-2 hover:scale-105 transition-all duration-300 mb-6"
-              >
-                Register{" "}
-                <TbCircleArrowUpRight
-                  size={25}
-                  className="group-hover:rotate-45 transition-all"
-                />
-              </Link>
+              {!eventEnded && (
+                <Link
+                  href={`/register/${eventData.event._id}`}
+                  className="group flex gap-2 items-center bg-white rounded w-fit font-normal text-black px-4 py-2 hover:scale-105 transition-all duration-300 mb-6"
+                >
+                  Register
+                  <TbCircleArrowUpRight
+                    size={25}
+                    className="group-hover:rotate-45 transition-all"
+                  />
+                </Link>
+              )}
+
               <p className="text-neutral-400 text-lg">
                 Organizer:{" "}
                 <span className="font-bold">{eventData.event.organizer}</span>
@@ -166,7 +173,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
           </ul>
           {filteredUsers.length > itemsPerPage && (
             <Pagination
-              className="flex justify-center mt-4"
+              className="flex justify-center mt-4 mb-8"
               total={Math.ceil(filteredUsers.length / itemsPerPage)}
               value={activePage} // Активна сторінка
               onChange={setPage} // Функція для зміни активної сторінки
