@@ -1,13 +1,14 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { FormValues, formShema } from "@/utils/formSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import useFetchEvent from "@/hooks/useFetchEvent";
 import { SlArrowLeft } from "react-icons/sl";
-import { useRouter } from "next/navigation";
+import { FaRegCircleCheck } from "react-icons/fa6";
 
 interface EventRegisterParams {
   eventId: string;
@@ -17,11 +18,23 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const eventId = params.eventId;
   const router = useRouter();
   const { eventData } = useFetchEvent(eventId);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const { register, handleSubmit, formState, control, reset } =
+    useForm<FormValues>({
+      defaultValues: {
+        fullName: "",
+        email: "",
+        dateOfBirth: undefined,
+        heardAbout: "",
+      },
+      resolver: zodResolver(formShema),
+    });
 
   const onSubmit = async (formData: FormValues) => {
     const formDataToSend = {
       ...formData,
-      dateOfBirth: new Date(formData.dateOfBirth).toISOString(), // Конвертація в UTC
+      dateOfBirth: new Date(formData.dateOfBirth).toISOString(), // Convert to UTC
     };
     try {
       const response = await fetch(`/api/events`, {
@@ -33,7 +46,8 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
       });
 
       if (response.ok) {
-        alert("Користувач успішно зареєстрований на івент!");
+        setIsSuccess(true);
+        reset();
       } else {
         console.log(response.statusText);
       }
@@ -41,16 +55,6 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
       console.error(error);
     }
   };
-
-  const { register, handleSubmit, formState, control } = useForm<FormValues>({
-    defaultValues: {
-      fullName: "",
-      email: "",
-      dateOfBirth: undefined,
-      heardAbout: "",
-    },
-    resolver: zodResolver(formShema),
-  });
 
   const { isSubmitting, errors } = formState;
 
@@ -198,6 +202,12 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             >
               Register
             </button>
+            {isSuccess && (
+              <p className="mt-4 text-green-500 flex justify-center items-center gap-2">
+                <FaRegCircleCheck size={20} />
+                You are successfully registered for the event!
+              </p>
+            )}
           </form>
         </div>
       </div>
