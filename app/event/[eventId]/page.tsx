@@ -1,59 +1,84 @@
-"use client"
-import React, { FC, useEffect, useState } from 'react';
+"use client";
+import useFetchEvent, { UserInterface } from "@/hooks/useFetchEvent";
+import { Input } from "@mantine/core";
+import React, { FC, useState } from "react";
 
 interface EventRegisterParams {
   eventId: string;
 }
 
-interface RegisteredUser {
-    fullName: string;
-    email: string;
-    dateOfBirth: string; // або можна використовувати тип Date
-    heardAbout: string;
-    _id: string;
-  }
-
 const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const eventId = params.eventId;
-  const [eventData, setEventData] = useState<any>(null);
+  const { eventData, loading, error } = useFetchEvent(eventId);
+  const [searchName, setSearchName] = useState<string>("");
+  const [searchEmail, setSearchEmail] = useState<string>("");
 
-  useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const response = await fetch(`/api/events/${eventId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setEventData(data);
-      } catch (error) {
-        console.error("Error fetching event data:", error);
-      }
-    };
-    fetchEventData();
-  }, [eventId]);
+  const handleNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchName(e.target.value);
+  };
 
-  console.log(eventData);
+  const handleEmailSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchEmail(e.target.value);
+  };
+
+  if (loading) {
+    return <p>Loading event data...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>; // Ensure error is of type string
+  }
+
+  let filteredUsers = eventData?.event.registeredUsers || [];
+
+  if (searchName) {
+    filteredUsers = filteredUsers.filter((user: UserInterface) =>
+      user.fullName.toLowerCase().includes(searchName.toLowerCase())
+    );
+  }
+
+  if (searchEmail) {
+    filteredUsers = filteredUsers.filter((user: UserInterface) =>
+      user.email.toLowerCase().includes(searchEmail.toLowerCase())
+    );
+  }
 
   return (
-    <div className='dark:text-white'>
+    <div className="dark:text-white">
       <h2>Event Details</h2>
       {eventData ? (
         <div>
           <p>Title: {eventData.event.title}</p>
           <p>Description: {eventData.event.description}</p>
           <p>Organizer: {eventData.event.organizer}</p>
+          <p>
+            Event date:
+            {eventData.event.event_date
+              ? new Date(eventData.event.event_date).toLocaleString()
+              : "No event date available"}
+          </p>
+          <Input
+            placeholder="Search by name"
+            value={searchName}
+            onChange={handleNameSearch}
+          />
+          <Input
+            placeholder="Search by email"
+            value={searchEmail}
+            onChange={handleEmailSearch}
+          />
           <p>Registered Users:</p>
           <ul>
-            {eventData.event.registeredUsers.map((user: RegisteredUser) => (
+            {filteredUsers.map((user: UserInterface) => (
               <li key={user._id}>
-                {user.fullName} - {user.email}
+                {user.fullName} - {user.email} - {user.heardAbout} -{" "}
+                {new Date(user.dateOfBirth).toLocaleString()}
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p>Loading event data...</p>
+        <p>No event data available.</p>
       )}
     </div>
   );

@@ -4,13 +4,13 @@ import mongoose, { Schema } from "mongoose";
 const eventSchema = new Schema({
   title: String,
   description: String,
-  event_date: String,
+  event_date: Date,
   organizer: String,
   registeredUsers: [ // Поле для зареєстрованих користувачів
     {
       fullName: String,
       email: String,
-      dateOfBirth: String,
+      dateOfBirth: Date,
       heardAbout: String
     }
   ]
