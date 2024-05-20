@@ -1,6 +1,9 @@
 import { UserInterface } from "@/hooks/useFetchEvent";
 import { cn } from "@/utils/cn";
+import { Button } from "@mantine/core";
 import Link from "next/link";
+import { FaArrowRight, FaUserCircle } from "react-icons/fa"; // Імпортуємо необхідну іконку
+import { TbCircleArrowUpRight } from "react-icons/tb";
 
 export const BentoGrid = ({
   className,
@@ -29,6 +32,7 @@ export const BentoGridItem = ({
   eventDate,
   organizer,
   id,
+  color,
 }: {
   className?: string;
   title?: string | React.ReactNode;
@@ -37,46 +41,81 @@ export const BentoGridItem = ({
   eventDate?: Date;
   organizer?: string;
   id?: string | React.ReactNode;
+  color?: string;
 }) => {
+  const generateGradient = (color: string | undefined) => {
+    return `radial-gradient(ellipse at 120% 120%, ${color} 10%, #232323 60%)`;
+  };  
+
   return (
     <div
       className={cn(
-        "rounded-lg group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-[#18181b] dark:border-white/[0.2] bg-white dark:text-white border border-transparent justify-between flex",
+        "rounded-lg group/bento hover:shadow-xl transition duration-200 p-4 bg-[#18181b] text-white borderjustify-between flex m-0 border-[#4F4F4F] border",
         className
       )}
+      style={{
+        background: generateGradient(color),
+        backdropFilter: "blur(200px)", 
+      }}
     >
-      <div className="group-hover/bento:translate-x-2 transition duration-200">
-        <div className="text-lg md:text-2xl font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
-          {title}
-        </div>
-        <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
-          {description}
+      <div className="flex flex-col justify-between">
+        <div>
+          <p
+            className="text-base md:text-lg font-sans font-bold"
+            style={{ color: color }}
+          >
+            {organizer}
+          </p>
+          <h2 className={`text-2xl font-sans font-black text-white`}>
+            {title}
+          </h2>
+
+          <p className="text-md md:text-base font-sans font-normal text-white mt-1">
+            {description}
+          </p>
         </div>
 
-        <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
-          {eventDate
-            ? new Date(eventDate).toLocaleString()
-            : "No event date available"}
-        </div>
+        <div>
+          <p className="flex items-center gap-1 font-bold mb-2">
+            <FaUserCircle size={20} />
+            {registeredUsers?.length}
+          </p>
+          <div className="flex gap-4 mb-2">
+            <Link
+              href={`event/${id}`}
+              className="bg-white rounded w-fit font-normal text-neutral-600 px-4 py-2 hover:scale-105 transition-all duration-300"
+            >
+              View
+            </Link>
+            <Link
+              href={`register/${id}`}
+              className="group flex gap-2 items-center bg-[#353535] rounded w-fit font-normal text-white px-4 py-2 hover:scale-105 transition-all duration-300"
+            >
+              Register <TbCircleArrowUpRight size={25} className="group-hover:rotate-45 transition-all" />
 
-        <div className="text-base md:text-xl font-sans font-normal text-neutral-600 dark:text-neutral-300">
-          {organizer}
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            {eventDate ? (
+              <>
+                <p className="text-base font-sans font-normal text-neutral-300">
+                 {new Date(eventDate).toLocaleDateString()}
+                </p>
+                <p className="text-base font-sans font-normal text-neutral-300">
+                  
+                  {new Date(eventDate).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </>
+            ) : (
+              <p className="text-base  font-sans font-normal text-neutral-300">
+                No event date available
+              </p>
+            )}
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Link
-            href={`register/${id}`}
-            className=" p-5 bg-blue-200 dark:bg-blue-950"
-          >
-            Register
-          </Link>
-          <Link
-            href={`event/${id}`}
-            className=" p-5 bg-blue-200 dark:bg-blue-950"
-          >
-            View
-          </Link>
-        </div>
-        <p>Registered already:{registeredUsers?.length}</p>
       </div>
     </div>
   );

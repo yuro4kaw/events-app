@@ -52,7 +52,7 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   const { isSubmitting, errors } = formState;
 
   return (
-    <div className="dark:text-white max-w-md mx-auto">
+    <div className="text-white max-w-md mx-auto my-auto bg-white p-6 rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">
         Event registration: {eventId}
       </h2>
@@ -97,15 +97,6 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             Where did you hear about this event?
           </label>
           <p className="text-red-500">{errors.heardAbout?.message}</p>
-          {/* <select
-            {...register("heardAbout")}
-            className="dark:text-black border border-gray-300 rounded px-3 py-2 w-full"
-          >
-            <option value="">Choose variant</option>
-            <option value="Social media">Social media</option>
-            <option value="Friends">Friends</option>
-            <option value="Found myself">Found myself</option>
-          </select> */}
           <Controller
             control={control}
             name={"heardAbout"}

@@ -44,7 +44,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   }
 
   return (
-    <div className="dark:text-white">
+    <div className="text-white">
       <h2>Event Details</h2>
       {eventData ? (
         <div>

@@ -8,18 +8,23 @@ export default function Home() {
     <main className="relative">
       <AuroraBackground>
         <MotionWrapper>
-          <h1 className="text-3xl md:text-7xl dark:text-white font-black mb-4 text-center">
+          <h1 className="text-3xl md:text-7xl text-white font-black mb-4 text-center">
             Events App
           </h1>
-          <p className="text-base md:text-2xl dark:text-neutral-200 max-w-[400px] text-center mb-4">
+          <p className="text-base md:text-2xl text-neutral-200 max-w-[400px] text-center mb-4">
             Welcome to the best events app right in your city.
           </p>
-          <Link href={"#cards"} className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 hover:scale-105 transition-all duration-300">
+          <Link
+            href={"#cards"}
+            className="bg-white rounded w-fit text-black px-4 py-2 hover:scale-105 transition-all duration-300"
+          >
             Explore now
           </Link>
         </MotionWrapper>
       </AuroraBackground>
-      <CardsSection />
+      <div className="h-full w-full bg-black bg-grid-white/[0.04] relative">
+        <CardsSection />
+      </div>
     </main>
   );
 }
