@@ -15,7 +15,7 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto",
+        "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-7xl mx-auto",
         className
       )}
     >
@@ -45,7 +45,7 @@ export const BentoGridItem = ({
 }) => {
   const generateGradient = (color: string | undefined) => {
     return `radial-gradient(ellipse at 120% 120%, ${color} 10%, #232323 60%)`;
-  };  
+  };
 
   return (
     <div
@@ -55,7 +55,7 @@ export const BentoGridItem = ({
       )}
       style={{
         background: generateGradient(color),
-        backdropFilter: "blur(200px)", 
+        backdropFilter: "blur(200px)",
       }}
     >
       <div className="flex flex-col justify-between">
@@ -91,18 +91,20 @@ export const BentoGridItem = ({
               href={`register/${id}`}
               className="group flex gap-2 items-center bg-[#353535] rounded w-fit font-normal text-white px-4 py-2 hover:scale-105 transition-all duration-300"
             >
-              Register <TbCircleArrowUpRight size={25} className="group-hover:rotate-45 transition-all" />
-
+              Register{" "}
+              <TbCircleArrowUpRight
+                size={25}
+                className="group-hover:rotate-45 transition-all"
+              />
             </Link>
           </div>
           <div className="flex items-center gap-3">
             {eventDate ? (
               <>
                 <p className="text-base font-sans font-normal text-neutral-300">
-                 {new Date(eventDate).toLocaleDateString()}
+                  {new Date(eventDate).toLocaleDateString()}
                 </p>
                 <p className="text-base font-sans font-normal text-neutral-300">
-                  
                   {new Date(eventDate).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",

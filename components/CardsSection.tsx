@@ -16,7 +16,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { VscSettings } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
 
-
 const CardsSection = () => {
   const { events, loading, hasMore, loadMore } = useEvents();
   const [filtersVisible, setFiltersVisible] = useState<boolean>(false);
@@ -66,7 +65,6 @@ const CardsSection = () => {
   // Clear all filters
   const clearFilters = () => {
     setSearchValue("");
-    setSortMethod("Default");
     setStartDate(null);
     setEndDate(null);
     setOrganizerFilter("");
@@ -117,7 +115,7 @@ const CardsSection = () => {
                   onChange={(value) => setSearchValue(value || "")}
                   className="w-full"
                   size="md"
-                  classNames={{label:"!text-sm"}}
+                  classNames={{ label: "!text-sm" }}
                 />
                 <Autocomplete
                   label="Filter events by organizer"
@@ -152,7 +150,6 @@ const CardsSection = () => {
                     className="w-40 bg-white rounded text-black px-4 py-2 flex justify-center items-center gap-2"
                   >
                     Clear Filters <RxCross2 size={20} />
-
                   </button>
                 </div>
               </div>
@@ -161,21 +158,21 @@ const CardsSection = () => {
         </AnimatePresence>
       </div>
       <div className="max-w-7xl mx-auto pb-10">
-      <Select
-            placeholder="Choose sort method"
-            data={[
-              "Name Ascending",
-              "Name Descending",
-              "Date Ascending",
-              "Date Descending",
-              "Organizer Ascending",
-              "Organizer Descending",
-            ]}
-            value={sortMethod}
-            onChange={(value) => setSortMethod(value || "Default")}
-            className="w-full mb-4 sm:hidden"
-            size="md"
-          />
+        <Select
+          placeholder="Choose sort method"
+          data={[
+            "Name Ascending",
+            "Name Descending",
+            "Date Ascending",
+            "Date Descending",
+            "Organizer Ascending",
+            "Organizer Descending",
+          ]}
+          value={sortMethod}
+          onChange={(value) => setSortMethod(value || "Default")}
+          className="w-full mb-4 sm:hidden"
+          size="md"
+        />
         <BentoGrid>
           {filteredEventsByDate && filteredEventsByDate.length > 0 ? (
             filteredEventsByDate.map((event, index) => (

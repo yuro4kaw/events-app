@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "bg-black")}>
+      <body className={"bg-black bg-grid-white/[0.04]"}>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
           {children}
         </MantineProvider>

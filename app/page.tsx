@@ -22,9 +22,8 @@ export default function Home() {
           </Link>
         </MotionWrapper>
       </AuroraBackground>
-      <div className="h-full w-full bg-black bg-grid-white/[0.04] relative">
-        <CardsSection />
-      </div>
+
+      <CardsSection />
     </main>
   );
 }
