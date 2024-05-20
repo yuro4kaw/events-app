@@ -1,16 +1,16 @@
 "use client";
+import React, { FC, useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import useFetchEvent, { UserInterface } from "@/hooks/useFetchEvent";
 import { Input, Pagination } from "@mantine/core";
-import Link from "next/link";
 import UserCard from "@/components/UserCard";
-import React, { FC, useEffect, useState } from "react";
+import Preloader from "@/components/Preloader";
+import { TbCircleArrowUpRight } from "react-icons/tb";
 import { SlArrowLeft } from "react-icons/sl";
 import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import "@/utils/flipClock.css";
-import { TbCircleArrowUpRight } from "react-icons/tb";
-import { useRouter } from "next/navigation";
-import Preloader from "@/components/Preloader";
 
 interface EventRegisterParams {
   eventId: string;

@@ -1,7 +1,7 @@
-import CardsSection from "@/components/CardsSection";
-import MotionWrapper from "@/components/MotionWrapper";
-import { AuroraBackground } from "@/components/ui/AuroraBackground";
 import Link from "next/link";
+import CardsSection from "@/components/CardsSection";
+import MotionWrapper from "@/utils/MotionWrapper";
+import { AuroraBackground } from "@/components/ui/AuroraBackground";
 
 export default function Home() {
   return (

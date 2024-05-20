@@ -1,10 +1,10 @@
 "use client";
-import { FormValues, formShema } from "@/utils/formSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Input, Select } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
+import { FormValues, formShema } from "@/utils/formSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import useFetchEvent from "@/hooks/useFetchEvent";
 import { SlArrowLeft } from "react-icons/sl";
 import { useRouter } from "next/navigation";
