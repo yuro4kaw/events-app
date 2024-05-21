@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useFetchEvent, { UserInterface } from "@/hooks/useFetchEvent";
@@ -11,39 +11,40 @@ import { SlArrowLeft } from "react-icons/sl";
 import FlipClockCountdown from "@leenguyen/react-flip-clock-countdown";
 import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 import "@/utils/flipClock.css";
+import useEventStatus from "@/hooks/useEventStatus";
+import useFilteredUsers from "@/hooks/useFilteredUsers";
 
 interface EventRegisterParams {
   eventId: string;
 }
 
 const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
-  const eventId = params.eventId;
+  const { eventId } = params;
   const { eventData, loading, error } = useFetchEvent(eventId);
-  const [searchName, setSearchName] = useState<string>("");
-  const [searchEmail, setSearchEmail] = useState<string>("");
-  const [eventEnded, setEventEnded] = useState<boolean>(false);
   const [activePage, setPage] = useState(1);
   const router = useRouter();
 
-  const handleNameSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchName(e.target.value);
-  };
+  const eventDate = eventData?.event.event_date
+    ? new Date(eventData.event.event_date)
+    : null;
 
-  const handleEmailSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchEmail(e.target.value);
-  };
+  const eventEnded = useEventStatus(eventDate);
 
-  useEffect(() => {
-    if (eventData?.event.event_date) {
-      const eventDateTime = new Date(eventData.event.event_date).getTime();
-      const currentDateTime = new Date().getTime();
-      if (eventDateTime < currentDateTime) {
-        setEventEnded(true);
-      } else {
-        setEventEnded(false);
-      }
-    }
-  }, [eventData]);
+  const users = eventData?.event.registeredUsers || [];
+  const {
+    searchName,
+    setSearchName,
+    searchEmail,
+    setSearchEmail,
+    filteredUsers,
+  } = useFilteredUsers(users);
+
+  const itemsPerPage = 21;
+  const startIndex = (activePage - 1) * itemsPerPage;
+  const currentPageUsers = filteredUsers.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   if (loading) {
     return (
@@ -56,30 +57,6 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   if (error) {
     return <p>Error: {error}</p>; // Ensure error is of type string
   }
-
-  let filteredUsers = eventData?.event.registeredUsers || [];
-
-  if (searchName) {
-    filteredUsers = filteredUsers.filter((user: UserInterface) =>
-      user.fullName.toLowerCase().includes(searchName.toLowerCase())
-    );
-  }
-
-  if (searchEmail) {
-    filteredUsers = filteredUsers.filter((user: UserInterface) =>
-      user.email.toLowerCase().includes(searchEmail.toLowerCase())
-    );
-  }
-
-  const eventDate = eventData?.event.event_date
-    ? new Date(eventData.event.event_date).getTime()
-    : null;
-
-  const itemsPerPage = 21;
-
-  const startIndex = (activePage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageUsers = filteredUsers.slice(startIndex, endIndex);
 
   return (
     <div className="text-white max-w-7xl mx-auto px-4 mt-10">
@@ -111,27 +88,21 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
                   />
                 </Link>
               )}
-
               <p className="text-neutral-400 text-lg">
                 Organizer:{" "}
                 <span className="font-bold">{eventData.event.organizer}</span>
               </p>
               <div className="flex gap-2">
-                {eventData.event.event_date ? (
+                {eventDate ? (
                   <>
                     <p className="text-lg font-sans text-white font-bold">
-                      {new Date(eventData.event.event_date).toLocaleTimeString(
-                        [],
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
+                      {new Date(eventDate).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </p>
                     <p className="text-lg font-sans font-normal text-neutral-300">
-                      {new Date(
-                        eventData.event.event_date
-                      ).toLocaleDateString()}
+                      {new Date(eventDate).toLocaleDateString()}
                     </p>
                     {eventEnded && (
                       <p className="bg-red-400 px-2 py-1 text-sm rounded text-white font-bold">
@@ -146,7 +117,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
                 )}
               </div>
             </div>
-            <FlipClockCountdown to={eventDate as number} />
+            {eventDate && <FlipClockCountdown to={eventDate.getTime()} />}
           </div>
           <div className="flex flex-col md:flex-row md:items-center justify-between my-4">
             <p className="text-2xl font-bold mb-2 md:mb-0">Registered Users:</p>
@@ -154,13 +125,13 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
               <Input
                 placeholder="Search by name"
                 value={searchName}
-                onChange={handleNameSearch}
+                onChange={(e) => setSearchName(e.target.value)}
                 className="w-full"
               />
               <Input
                 placeholder="Search by email"
                 value={searchEmail}
-                onChange={handleEmailSearch}
+                onChange={(e) => setSearchEmail(e.target.value)}
                 className="w-full"
               />
             </div>
@@ -180,8 +151,8 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
             <Pagination
               className="flex justify-center mt-4 mb-8"
               total={Math.ceil(filteredUsers.length / itemsPerPage)}
-              value={activePage} // Активна сторінка
-              onChange={setPage} // Функція для зміни активної сторінки
+              value={activePage} // Active page
+              onChange={setPage} // Function to change active page
               classNames={{ control: "!text-neutral-400" }}
             />
           )}

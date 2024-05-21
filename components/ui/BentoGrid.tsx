@@ -1,3 +1,4 @@
+import useEventStatus from "@/hooks/useEventStatus";
 import { UserInterface } from "@/hooks/useFetchEvent";
 import { cn } from "@/utils/cn";
 import { Button } from "@mantine/core";
@@ -47,6 +48,9 @@ export const BentoGridItem = ({
     return `radial-gradient(ellipse at 120% 120%, ${color} 10%, #232323 60%)`;
   };
 
+  const formattedEventDate = eventDate ? new Date(eventDate) : null;
+  const eventEnded = useEventStatus(formattedEventDate);
+
   return (
     <div
       className={cn(
@@ -70,7 +74,7 @@ export const BentoGridItem = ({
             {title}
           </h2>
 
-          <p className="text-md md:text-base font-sans font-normal text-white mt-1">
+          <p className="text-md md:text-base font-sans font-normal text-white mt-1 line-clamp-2 w-[60%]">
             {description}
           </p>
         </div>
@@ -87,9 +91,12 @@ export const BentoGridItem = ({
             >
               View
             </Link>
+
             <Link
               href={`register/${id}`}
-              className="group flex gap-2 items-center bg-[#353535] rounded w-fit font-normal text-white px-4 py-2 hover:scale-105 transition-all duration-300"
+              className={`${
+                eventEnded ? "pointer-events-none opacity-50" : ""
+              } group flex gap-2 items-center bg-[#353535] rounded w-fit font-normal text-white px-4 py-2 hover:scale-105 transition-all duration-300`}
             >
               Register{" "}
               <TbCircleArrowUpRight
@@ -110,6 +117,11 @@ export const BentoGridItem = ({
                     minute: "2-digit",
                   })}
                 </p>
+                {eventEnded && (
+                  <p className="bg-red-400 px-2 py-1 text-sm rounded text-white font-bold">
+                    Ended
+                  </p>
+                )}
               </>
             ) : (
               <p className="text-base  font-sans font-normal text-neutral-300">
