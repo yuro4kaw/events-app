@@ -1,39 +1,88 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Event Registration App
+
+This is a React-based web application for event registration. The application allows users to register for an event by filling out a form. The form data is validated using `react-hook-form` and `zod`, and the UI components are styled using Mantine.
+
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the App](#running-the-app)
+- [Project Structure](#project-structure)
+
+## Features
+
+- User-friendly registration form
+- Form validation with `react-hook-form` and `zod`
+- Fetch event data from an API
+- Responsive design with Mantine components
+
+## Technologies Used
+
+### [React](https://reactjs.org/)
+JavaScript library for building user interfaces.
+
+### [Next.js](https://nextjs.org/)
+React framework for server-rendered applications.
+
+### [TypeScript](https://www.typescriptlang.org/)
+Typed superset of JavaScript.
+
+### [react-hook-form](https://react-hook-form.com/)
+Performant, flexible and extensible forms with easy-to-use validation.
+
+### [zod](https://github.com/colinhacks/zod)
+TypeScript-first schema declaration and validation library.
+
+### [Mantine](https://mantine.dev/)
+React components library with native dark theme support.
+
+### [React Icons](https://react-icons.github.io/react-icons/)
+Include popular icons in your React projects.
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Make sure you have the following software installed on your machine:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Node.js](https://nodejs.org/en/download/) (v14.x or higher)
+- [npm](https://www.npmjs.com/get-npm) or [Yarn](https://yarnpkg.com/getting-started/install) (npm comes bundled with Node.js)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Installation
 
-## Learn More
+1. Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    git clone https://github.com/your-username/event-registration-app.git
+    cd event-registration-app
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install the dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-## Deploy on Vercel
+### Running the App
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Start the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+2. Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
+## Project Structure
 
 ```
 events-app
