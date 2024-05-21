@@ -55,7 +55,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>; // Ensure error is of type string
+    return <p className="text-center text-4xl font-bold mt-10">Error: {error}</p>;
   }
 
   return (
@@ -158,7 +158,7 @@ const ViewEvent: FC<{ params: EventRegisterParams }> = ({ params }) => {
           )}
         </>
       ) : (
-        <p>No event data available.</p>
+        <p className="text-center text-4xl font-bold">No event data available.</p>
       )}
     </div>
   );

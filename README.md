@@ -34,3 +34,59 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+```
+events-app
+├─ app
+│  ├─ api
+│  │  └─ events
+│  │     ├─ route.js
+│  │     └─ [id]
+│  │        └─ route.js
+│  ├─ event
+│  │  └─ [eventId]
+│  │     └─ page.tsx
+│  ├─ favicon.ico
+│  ├─ globals.css
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ register
+│     └─ [eventId]
+│        └─ page.tsx
+├─ components
+│  ├─ CardsSection.tsx
+│  ├─ form
+│  │  ├─ FormDateInput.tsx
+│  │  ├─ FormInput.tsx
+│  │  └─ FormSelect.tsx
+│  ├─ Preloader.tsx
+│  ├─ ui
+│  │  ├─ AuroraBackground.tsx
+│  │  └─ BentoGrid.tsx
+│  └─ UserCard.tsx
+├─ hooks
+│  ├─ useEvents.ts
+│  ├─ useEventStatus.ts
+│  ├─ useFetchEvent.ts
+│  └─ useFilteredUsers.ts
+├─ lib
+│  ├─ mongodb.js
+│  └─ utils.ts
+├─ models
+│  └─ event.js
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ README.md
+├─ tailwind.config.ts
+├─ tsconfig.json
+└─ utils
+   ├─ cardsColors.ts
+   ├─ cn.ts
+   ├─ eventUtils.ts
+   ├─ flipClock.css
+   ├─ formSchema.ts
+   └─ MotionWrapper.tsx
+
+```

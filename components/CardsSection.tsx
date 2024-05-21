@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Autocomplete, Select } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import Preloader from "@/components/Preloader";
+import colors from "@/utils/cardsColors";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 import useEvents from "@/hooks/useEvents";
 import {
@@ -198,13 +199,3 @@ const CardsSection = () => {
 };
 
 export default CardsSection;
-
-const colors = [
-  "#4DE3ED", // Синьо-бірюзовий
-  "#DF91F2", // Фіолетовий
-  "#91F2A6", // Зелений
-  "#ED91E3", // Рожевий
-  "#F2DF91", // Жовтий
-  "#A691F2", // Фіолетовий
-  "#E3914D", // Помаранчевий
-];

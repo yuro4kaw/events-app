@@ -1,41 +1,38 @@
 "use client";
 import React, { FC, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input, Select } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
-import { FormValues, formShema } from "@/utils/formSchema";
+import { FormValues, formSchema } from "@/utils/formSchema";
 import useFetchEvent from "@/hooks/useFetchEvent";
 import { SlArrowLeft } from "react-icons/sl";
 import { FaRegCircleCheck } from "react-icons/fa6";
+
+import FormInput from "@/components/form/FormInput";
+import FormSelect from "@/components/form/FormSelect";
+import FormDateInput from "@/components/form/FormDateInput";
+import Preloader from "@/components/Preloader";
 
 interface EventRegisterParams {
   eventId: string;
 }
 
 const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
-  const eventId = params.eventId;
+  const { eventId } = params;
   const router = useRouter();
-  const { eventData } = useFetchEvent(eventId);
+  const { eventData, loading, error } = useFetchEvent(eventId);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { register, handleSubmit, formState, control, reset } =
-    useForm<FormValues>({
-      defaultValues: {
-        fullName: "",
-        email: "",
-        dateOfBirth: undefined,
-        heardAbout: "",
-      },
-      resolver: zodResolver(formShema),
-    });
+  const { control, handleSubmit, formState, reset } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+  });
 
   const onSubmit = async (formData: FormValues) => {
     const formDataToSend = {
       ...formData,
-      dateOfBirth: new Date(formData.dateOfBirth).toISOString(), // Convert to UTC
+      dateOfBirth: formData.dateOfBirth?.toISOString(), // Convert to UTC
     };
+
     try {
       const response = await fetch(`/api/events`, {
         method: "PUT",
@@ -49,7 +46,7 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
         setIsSuccess(true);
         reset();
       } else {
-        console.log(response.statusText);
+        console.error(response.statusText);
       }
     } catch (error) {
       console.error(error);
@@ -57,6 +54,18 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
   };
 
   const { isSubmitting, errors } = formState;
+
+  if (loading) {
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <Preloader />
+      </div>
+    );
+  }
+  if (error)
+    return (
+      <div className="text-center text-4xl font-bold mt-10">Error: {error}</div>
+    );
 
   return (
     <div className="flex justify-center items-center h-screen px-4">
@@ -80,121 +89,50 @@ const EventRegister: FC<{ params: EventRegisterParams }> = ({ params }) => {
             {eventData?.event.event_date ? (
               <>
                 <p className="text-lg font-sans">
-                  {new Date(eventData?.event.event_date).toLocaleTimeString(
-                    [],
-                    {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }
-                  )}
+                  {new Date(eventData.event.event_date).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
                 <p className="text-lg font-sans">
-                  {new Date(eventData?.event.event_date).toLocaleDateString()}
+                  {new Date(eventData.event.event_date).toLocaleDateString()}
                 </p>
               </>
             ) : (
-              <p className="text-base font-sans ">No event date available</p>
+              <p className="text-base font-sans">No event date available</p>
             )}
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <label className="block mb-1">Full name:</label>
-              <p className="text-red-500 text-sm">{errors.fullName?.message}</p>
-              <Input
-                {...register("fullName")}
-                placeholder="Enter your full name"
-                classNames={{
-                  input: `!bg-neutral-100 focus:${
-                    !!errors.fullName?.message
-                      ? "!border-red-500"
-                      : "!border-neutral-800"
-                  } ${
-                    !!errors.fullName?.message
-                      ? "!border-red-500"
-                      : "!border-neutral-400"
-                  } !transition-all !text-neutral-800`,
-                }}
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Email:</label>
-              <p className="text-red-500 text-sm">{errors.email?.message}</p>
-              <Input
-                {...register("email")}
-                placeholder="Enter your email"
-                classNames={{
-                  input: `!bg-neutral-100 focus:${
-                    !!errors.email?.message
-                      ? "!border-red-500"
-                      : "!border-neutral-800"
-                  } ${
-                    !!errors.email?.message
-                      ? "!border-red-500"
-                      : "!border-neutral-400"
-                  } !transition-all !text-neutral-800 error:!border-red-500`,
-                }}
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Date of birth:</label>
-              <p className="text-red-500 text-sm">
-                {errors.dateOfBirth?.message}
-              </p>
-              <Controller
-                control={control}
-                name={"dateOfBirth"}
-                render={({ field }) => (
-                  <DateInput
-                    onChange={(date) => field.onChange(date)}
-                    placeholder="Choose your date of birth"
-                    classNames={{
-                      input: `!bg-neutral-100 focus:${
-                        !!errors.dateOfBirth?.message
-                          ? "!border-red-500"
-                          : "!border-neutral-800"
-                      } ${
-                        !!errors.dateOfBirth?.message
-                          ? "!border-red-500"
-                          : "!border-neutral-400"
-                      } !transition-all !text-neutral-800`,
-                    }}
-                  />
-                )}
-              />
-            </div>
-            <div>
-              <label className="block mb-1">
-                Where did you hear about this event?
-              </label>
-              <p className="text-red-500 text-sm">
-                {errors.heardAbout?.message}
-              </p>
-              <Controller
-                control={control}
-                name={"heardAbout"}
-                render={({ field }) => (
-                  <Select
-                    onChange={(date) => field.onChange(date)}
-                    data={["Social media", "Friends", "Found myself"]}
-                    placeholder="Pick value"
-                    classNames={{
-                      input: `!bg-neutral-100 focus:${
-                        !!errors.heardAbout?.message
-                          ? "!border-red-500"
-                          : "!border-neutral-800"
-                      } ${
-                        !!errors.heardAbout?.message
-                          ? "!border-red-500"
-                          : "!border-neutral-400"
-                      } !transition-all !text-neutral-800`,
-                      dropdown: "!bg-neutral-100 !text-neutral-800",
-                      option: "hover:!bg-neutral-300",
-                    }}
-                  />
-                )}
-              />
-            </div>
+            <FormInput
+              name="fullName"
+              control={control}
+              label="Full name"
+              placeholder="Enter your full name"
+              error={errors.fullName?.message}
+            />
+            <FormInput
+              name="email"
+              control={control}
+              label="Email"
+              placeholder="Enter your email"
+              error={errors.email?.message}
+            />
+            <FormDateInput
+              name="dateOfBirth"
+              control={control}
+              label="Date of birth"
+              placeholder="Choose your date of birth"
+              error={errors.dateOfBirth?.message}
+            />
+            <FormSelect
+              name="heardAbout"
+              control={control}
+              label="Where did you hear about this event?"
+              placeholder="Pick value"
+              data={["Social media", "Friends", "Found myself"]}
+              error={errors.heardAbout?.message}
+            />
             <button
               type="submit"
               disabled={isSubmitting}
