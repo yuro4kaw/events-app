@@ -1,5 +1,5 @@
 # Event Registration App
-
+### Made by Yurii Matvii with <3 for ElifTech.
 This is a React-based web application for event registration. The application allows users to register for an event by filling out a form. The form data is validated using `react-hook-form` and `zod`, and the UI components are styled using Mantine.
 
 ## Table of Contents
@@ -21,26 +21,14 @@ This is a React-based web application for event registration. The application al
 
 ## Technologies Used
 
-### [React](https://reactjs.org/)
-JavaScript library for building user interfaces.
-
-### [Next.js](https://nextjs.org/)
-React framework for server-rendered applications.
-
-### [TypeScript](https://www.typescriptlang.org/)
-Typed superset of JavaScript.
-
-### [react-hook-form](https://react-hook-form.com/)
-Performant, flexible and extensible forms with easy-to-use validation.
-
-### [zod](https://github.com/colinhacks/zod)
-TypeScript-first schema declaration and validation library.
-
-### [Mantine](https://mantine.dev/)
-React components library with native dark theme support.
-
-### [React Icons](https://react-icons.github.io/react-icons/)
-Include popular icons in your React projects.
+- [React](https://reactjs.org/): JavaScript library for building user interfaces.
+- [Next.js](https://nextjs.org/): React framework for server-rendered applications.
+- [TypeScript](https://www.typescriptlang.org/): Typed superset of JavaScript.
+- [react-hook-form](https://react-hook-form.com/): Performant, flexible and extensible forms with easy-to-use validation.
+- [zod](https://github.com/colinhacks/zod): TypeScript-first schema declaration and validation library.
+- [Mantine](https://mantine.dev/): React components library with native dark theme support.
+- [React Icons](https://react-icons.github.io/react-icons/): Include popular icons in your React projects.
+- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for quickly building custom designs.
 
 ## Getting Started
 
@@ -58,7 +46,7 @@ Make sure you have the following software installed on your machine:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/event-registration-app.git
+    git clone https://github.com/yuro4kaw/events-app.git
     cd event-registration-app
     ```
 
@@ -85,57 +73,57 @@ Make sure you have the following software installed on your machine:
 ## Project Structure
 
 ```
-events-app
-├─ app
-│  ├─ api
-│  │  └─ events
-│  │     ├─ route.js
-│  │     └─ [id]
-│  │        └─ route.js
-│  ├─ event
-│  │  └─ [eventId]
-│  │     └─ page.tsx
-│  ├─ favicon.ico
-│  ├─ globals.css
-│  ├─ layout.tsx
-│  ├─ page.tsx
-│  └─ register
-│     └─ [eventId]
-│        └─ page.tsx
-├─ components
-│  ├─ CardsSection.tsx
-│  ├─ form
-│  │  ├─ FormDateInput.tsx
-│  │  ├─ FormInput.tsx
-│  │  └─ FormSelect.tsx
-│  ├─ Preloader.tsx
-│  ├─ ui
-│  │  ├─ AuroraBackground.tsx
-│  │  └─ BentoGrid.tsx
-│  └─ UserCard.tsx
-├─ hooks
-│  ├─ useEvents.ts
-│  ├─ useEventStatus.ts
-│  ├─ useFetchEvent.ts
-│  └─ useFilteredUsers.ts
-├─ lib
-│  ├─ mongodb.js
-│  └─ utils.ts
-├─ models
-│  └─ event.js
-├─ next.config.mjs
-├─ package-lock.json
-├─ package.json
-├─ postcss.config.mjs
-├─ README.md
-├─ tailwind.config.ts
-├─ tsconfig.json
-└─ utils
-   ├─ cardsColors.ts
-   ├─ cn.ts
-   ├─ eventUtils.ts
-   ├─ flipClock.css
-   ├─ formSchema.ts
-   └─ MotionWrapper.tsx
+events-app/
+├─ app/
+│  ├─ api/
+│  │  ├─ events/
+│  │  │  ├─ route.js      # API routes for events
+│  │  │  └─ [id]/
+│  │  │     └─ route.js   # Dynamic route for event by ID
+│  ├─ event/
+│  │  └─ [eventId]/
+│  │     └─ page.tsx      # Page component for specific event
+│  ├─ register/
+│  │  └─ [eventId]/
+│  │     └─ page.tsx      # Page component for event registration
+│  ├─ favicon.ico         # Favicon icon
+│  ├─ globals.css         # Global CSS styles
+│  ├─ layout.tsx          # Layout component
+│  └─ page.tsx            # Main page component
+├─ components/
+│  ├─ CardsSection.tsx    # Component for displaying cards
+│  ├─ form/
+│  │  ├─ FormDateInput.tsx   
+│  │  ├─ FormInput.tsx       
+│  │  └─ FormSelect.tsx      
+│  ├─ Preloader.tsx       # Preloader component
+│  ├─ ui/
+│  │  ├─ AuroraBackground.tsx   
+│  │  └─ BentoGrid.tsx          
+│  └─ UserCard.tsx        # User card component
+├─ hooks/
+│  ├─ useEvents.ts        # Custom hook for fetching events
+│  ├─ useEventStatus.ts   # Custom hook for event status
+│  ├─ useFetchEvent.ts    # Custom hook for fetching specific event
+│  └─ useFilteredUsers.ts # Custom hook for filtering users
+├─ lib/
+│  ├─ mongodb.js          # MongoDB utility functions
+│  └─ utils.ts            # General utility functions
+├─ models/
+│  └─ event.js            # Event model
+├─ utils/
+│  ├─ cardsColors.ts      # Card colors utility
+│  ├─ cn.ts               # Classnames utility
+│  ├─ eventUtils.ts       # Event utility functions
+│  ├─ flipClock.css       # Flip clock CSS
+│  ├─ formSchema.ts       # Form schema
+│  └─ MotionWrapper.tsx   # Motion wrapper component
+├─ next.config.mjs        # Next.js configuration
+├─ package-lock.json      
+├─ package.json           
+├─ postcss.config.mjs     
+├─ README.md              # README file
+├─ tailwind.config.ts     # Tailwind CSS configuration
+└─ tsconfig.json          # TypeScript configuration
 
 ```
