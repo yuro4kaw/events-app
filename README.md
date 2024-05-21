@@ -64,9 +64,13 @@ Make sure you have the following software installed on your machine:
     yarn install
     ```
 
-### Running the App
+3. Create a `.env.local` file in the root directory of the project and add the following content:
 
-1. Start the development server:
+    ```plaintext
+    MONGODB_URI=mongodb+srv://yurmatvii:0Tz8LfwI0FXnBaUA@cluster0.jav71p3.mongodb.net/events_db
+    ```
+
+4. Start the development server:
 
     ```bash
     npm run dev
@@ -74,7 +78,8 @@ Make sure you have the following software installed on your machine:
     yarn dev
     ```
 
-2. Open your browser and navigate to `http://localhost:3000` to see the application in action.
+5. Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
 
 ## Project Structure
 
