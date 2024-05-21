@@ -16,6 +16,7 @@ This is a **React-based web application** for event registration. The applicatio
 
 - User-friendly registration form
 - Form validation with `react-hook-form` and `zod`
+- Infinite scrolling events homepage
 - Fetch event data from an API
 - Responsive design with Mantine components
 - Full-stack development architecture
