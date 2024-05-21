@@ -1,7 +1,7 @@
 # Event Registration App
 ### Made by Yurii Matvii with <3 for ElifTech.
-This is a React-based web application for event registration. The application allows users to register for an event by filling out a form. The form data is validated using `react-hook-form` and `zod`, and the UI components are styled using Mantine.
-
+This is a **React-based web application** for event registration. The application allows users to register for an event by filling out a form. The form data is validated using `react-hook-form` and `zod`, and the UI components are styled using Mantine. Additionally, the backend server is built with **Node.js**, and **MongoDB** is used as the database management system.
+ 
 ## Table of Contents
 
 - [Features](#features)
@@ -18,6 +18,9 @@ This is a React-based web application for event registration. The application al
 - Form validation with `react-hook-form` and `zod`
 - Fetch event data from an API
 - Responsive design with Mantine components
+- Full-stack development architecture
+- Database integration for storing user information
+- Search and filtering options for events
 
 ## Technologies Used
 
@@ -29,6 +32,9 @@ This is a React-based web application for event registration. The application al
 - [Mantine](https://mantine.dev/): React components library with native dark theme support.
 - [React Icons](https://react-icons.github.io/react-icons/): Include popular icons in your React projects.
 - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for quickly building custom designs.
+- [MongoDB](https://www.mongodb.com/): NoSQL database used for data storage.
+- [Node.js](https://nodejs.org/): JavaScript runtime environment for backend development.
+- [Mongoose](https://mongoosejs.com/): MongoDB object modeling for Node.js.
 
 ## Getting Started
 
