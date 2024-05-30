@@ -1,5 +1,5 @@
 # Event Registration App
-### Made by Yurii Matvii with <3 for ElifTech.
+
 This is a **React-based web application** for event registration. The application allows users to register for an event by filling out a form. The form data is validated using `react-hook-form` and `zod`, and the UI components are styled using Mantine. Additionally, the backend server is built with **Node.js**, and **MongoDB** is used as the database management system.
  
 ## Table of Contents
